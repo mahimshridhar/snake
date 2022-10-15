@@ -71,7 +71,8 @@ func initialModel() model {
 			x: 10, y: 20,
 		},
 		snake: snake{
-			body: []foodLocation{{x: 1, y: 1},
+			body: []food{
+				{x: 1, y: 1},
 				{x: 1, y: 2},
 				{x: 1, y: 3},
 				{x: 1, y: 4}},
@@ -145,7 +146,7 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	var cmd tea.Cmd
 	m.stopwatch, cmd = m.stopwatch.Update(msg)
 	h := m.snake.getHead()
-	c := foodLocation{x: h.x, y: h.y}
+	c := food{x: h.x, y: h.y}
 
 	switch m.snake.direction {
 	case Right:
@@ -164,7 +165,7 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		y := rand.Intn(m.width - 1)
 
 		for {
-			if !m.snake.hitSelf(foodLocation{x, y}) {
+			if !m.snake.hitSelf(food{x, y}) {
 				break
 			}
 		}
@@ -197,19 +198,11 @@ func (m model) View() string {
 
 	stringArena := ""
 
-	m.arena = append(m.arena, strings.Split(m.verticalLine+strings.Repeat(m.horizontalLine, m.width)+m.verticalLine, ""))
+	RenderArena(&m)
 
-	for i := 0; i < m.height; i++ {
-		m.arena = append(m.arena, strings.Split(m.verticalLine+strings.Repeat(m.emptySymbol, m.width)+m.verticalLine, ""))
-	}
+	RenderSnake(&m)
 
-	m.arena = append(m.arena, strings.Split(m.verticalLine+strings.Repeat(m.horizontalLine, m.width)+m.verticalLine, ""))
-
-	for _, b := range m.snake.body {
-		m.arena[b.x][b.y] = m.snakeSymbol
-	}
-
-	m.arena[m.food.x][m.food.y] = m.foodSymbol
+	RenderFood(&m)
 
 	for _, row := range m.arena {
 		stringArena += strings.Join(row, "") + "\n"
