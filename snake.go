@@ -4,17 +4,13 @@ type food struct {
 	x, y int
 }
 
-type foodLocation struct {
-	x, y int
-}
-
 type snake struct {
-	body      []foodLocation
+	body      []food
 	length    int
 	direction int
 }
 
-func (s *snake) getHead() foodLocation {
+func (s *snake) getHead() food {
 	return s.body[len(s.body)-1]
 }
 
@@ -28,7 +24,7 @@ func (s *snake) hitWall(m model) bool {
 	return false
 }
 
-func (s *snake) hitSelf(c foodLocation) bool {
+func (s *snake) hitSelf(c food) bool {
 	for _, part := range s.body {
 		if part.x == c.x && part.y == c.y {
 			return true
