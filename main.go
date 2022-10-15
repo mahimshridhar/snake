@@ -71,7 +71,7 @@ func initialModel() model {
 			x: 10, y: 20,
 		},
 		snake: snake{
-			body: []food{
+			body: []coord{
 				{x: 1, y: 1},
 				{x: 1, y: 2},
 				{x: 1, y: 3},
@@ -146,7 +146,7 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	var cmd tea.Cmd
 	m.stopwatch, cmd = m.stopwatch.Update(msg)
 	h := m.snake.getHead()
-	c := food{x: h.x, y: h.y}
+	c := coord{x: h.x, y: h.y}
 
 	switch m.snake.direction {
 	case Right:
@@ -161,11 +161,11 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 
 	if c.x == m.food.x && c.y == m.food.y {
 		m.snake.length++
-		x := rand.Intn(m.height - 1)
-		y := rand.Intn(m.width - 1)
+		x := rand.Intn(m.height - 3)
+		y := rand.Intn(m.width - 3)
 
 		for {
-			if !m.snake.hitSelf(food{x, y}) {
+			if !m.snake.hitSelf(coord{x, y}) {
 				break
 			}
 		}
