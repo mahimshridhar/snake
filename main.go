@@ -197,19 +197,11 @@ func (m model) View() string {
 
 	stringArena := ""
 
-	m.arena = append(m.arena, strings.Split(m.verticalLine+strings.Repeat(m.horizontalLine, m.width)+m.verticalLine, ""))
+	RenderArena(&m)
 
-	for i := 0; i < m.height; i++ {
-		m.arena = append(m.arena, strings.Split(m.verticalLine+strings.Repeat(m.emptySymbol, m.width)+m.verticalLine, ""))
-	}
+	RenderSnake(&m)
 
-	m.arena = append(m.arena, strings.Split(m.verticalLine+strings.Repeat(m.horizontalLine, m.width)+m.verticalLine, ""))
-
-	for _, b := range m.snake.body {
-		m.arena[b.x][b.y] = m.snakeSymbol
-	}
-
-	m.arena[m.food.x][m.food.y] = m.foodSymbol
+	RenderFood(&m)
 
 	for _, row := range m.arena {
 		stringArena += strings.Join(row, "") + "\n"
