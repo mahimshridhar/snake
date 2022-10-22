@@ -18,10 +18,10 @@ func (s *snake) getHead() coord {
 	return s.body[len(s.body)-1]
 }
 
-func (s *snake) hitWall(m model) bool {
+func (s *snake) hitWall(m Model) bool {
 
 	h := s.getHead()
-	if h.x > m.height || h.y > m.width || h.x <= 0 || h.y <= 0 {
+	if h.x >= m.height || h.y > m.width-1 || h.x <= 0 || h.y <= 0 {
 		return true
 	}
 
