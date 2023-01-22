@@ -41,7 +41,17 @@ func (m Model) changeSnakeDirection(direction int) (tea.Model, tea.Cmd) {
 		return m, tea.Quit
 	}
 
-	m.snake.direction = direction
+	opposites := map[int]int{
+		Up:    Down,
+		Down:  Up,
+		Left:  Right,
+		Right: Left,
+	}
+
+	if opposites[direction] != m.snake.direction {
+		m.snake.direction = direction
+
+	}
 
 	return m, nil
 }
@@ -122,8 +132,8 @@ func initialModel() Model {
 func (m Model) Init() tea.Cmd {
 	var x, y int
 
-	x = rand.Intn(m.height)
-	y = rand.Intn(m.width)
+	x = rand.Intn(m.height - 1)
+	y = rand.Intn(m.width - 1)
 
 	m.food.x = x
 	m.food.y = y
@@ -184,20 +194,22 @@ func (m Model) View() string {
 	sb.WriteString(stringArena.String())
 	sb.WriteByte('\n')
 
-	// score := fmt.Sprintf("\n\nScore: %d", m.score)
 	sb.WriteString(RenderScore(m.score))
+	sb.WriteByte('\n')
 
 	if m.lostGame {
 		sb.WriteString(RenderGameOver())
 
 	}
 
+	// sb.WriteString(fmt.Sprintf("\nx =%d\ny =%d\nsnake x=%d\nsnake y=%d\n", m.food.x, m.food.y, m.snake.getHead().x, m.snake.getHead().y))
+
 	sb.WriteString(RenderHelp(HELP))
 	sb.WriteByte('\n')
 
 	// The footer
 	sb.WriteString(RenderHelp("Press q or ctrl+c to quit."))
-	sb.WriteByte('\n')
+	// sb.WriteByte('\n')
 	sb.WriteByte('\n')
 	sb.WriteByte('\n')
 

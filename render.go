@@ -50,7 +50,7 @@ func RenderScore(score int) string {
 }
 
 func RenderHelp(h string) string {
-	ts := lipgloss.NewStyle().Bold(true).Foreground(lipgloss.Color("10"))
+	ts := lipgloss.NewStyle().Bold(true).Foreground(lipgloss.Color("63"))
 
 	return ts.Render(h)
 }
@@ -64,6 +64,7 @@ func RenderQuitcommand() string {
 func RenderGameOver() string {
 	return lipgloss.NewStyle().Bold(true).
 		Foreground(lipgloss.Color("#FAFAFA")).
+		Background(lipgloss.Color("#FF0000")).
 		Width(40).
 		AlignHorizontal(lipgloss.Center).
 		MarginTop(1).
