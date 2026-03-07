@@ -25,3 +25,5 @@ go build -o snake
 ```
 
 ## 📸 Preview
+
+![alt text](image.png)
